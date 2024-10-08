@@ -81,3 +81,38 @@ setInterval(() => {
     currentImage++;
     showImages();
 }, 5000);
+
+
+const todoList = document.querySelector('.todo-list')
+const input = document.getElementById('new-todo')
+const addButton = document.getElementById('add-todo')
+const todos = JSON.parse(localStorage.getItem('todo-list')) || [];
+
+
+const renderTodos = () => {
+    todoList.innerHTML = '';
+  
+    todos.forEach(todo => {
+      const li = document.createElement('li')
+      li.classList.add('todo')
+      li.textContent = todo.text
+      todoList.appendChild(li)
+    })}
+
+
+const addTodo = () => {
+    const newTodoItem = input.value
+        
+    if (newTodoItem !== '') {
+      todos.push({ text: newTodoItem, completed: false })
+      localStorage.setItem('todo-list', JSON.stringify(todos))
+      const li = document.createElement('li')
+      li.textContent = newTodoItem
+      input.value = '';
+      todoList.appendChild(li)
+    }}
+
+
+renderTodos()
+
+addButton.addEventListener('click', addTodo)
