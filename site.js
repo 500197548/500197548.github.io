@@ -116,3 +116,34 @@ const addTodo = () => {
 renderTodos()
 
 addButton.addEventListener('click', addTodo)
+
+
+
+const getRandomPokemon = async () => {
+    const url = 'https://pokeapi.co/api/v2/pokemon/' + Math.floor(Math.random() * 150)
+    try {
+        const response = await fetch(url)
+        const pokemonObj = await response.json()
+        return pokemonObj
+    } catch (error) {
+        console.error('Error fetching Pokemon:', error)
+    }
+}
+
+const renderPokemon = (pokemonObj) => {
+    const img = document.getElementById('PokeImg')
+    const name = document.getElementById('PokemonName')
+    img.src = pokemonObj.sprites.front_default
+    img.alt = pokemonObj.name
+    name.textContent = pokemonObj.name
+    parentElement.appendChild(img)
+}
+
+const addPokemon = document.getElementById('addPokemon')
+
+addPokemon.addEventListener('click', async () => {
+    const pokemon = await getRandomPokemon()
+    if (pokemon) {
+        renderPokemon(pokemon)
+    }
+})
